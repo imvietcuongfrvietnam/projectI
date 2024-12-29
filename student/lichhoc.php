@@ -16,6 +16,7 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lớp học của sinh viên</title>
+    <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
 <?php include_once "nav_bar.php"; ?>
@@ -27,7 +28,11 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
     <label for="semester_id">Chọn học kỳ:</label>
     <select name="semester_id" id="semester_id">
         <option value="">Chọn học kỳ</option>
-        <?php
+        <option value="2023.2">2023.2</option>
+        <option value="2024.1">2024.1</option>
+    </select>
+
+    <?php
         // Lấy danh sách các học kỳ từ bảng semester
         $sql = "SELECT * FROM semester WHERE status = 'Mở đăng ký'";
         $stmt = sqlsrv_query($conn, $sql);
@@ -94,5 +99,7 @@ if ($semester_id) {
 
 sqlsrv_close($conn);
 ?>
+<?php include_once "../footer.php";?>
+
 </body>
 </html>

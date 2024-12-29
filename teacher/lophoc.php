@@ -7,6 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách lớp học</title>
+    <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
     <?php
@@ -68,5 +69,7 @@ session_start();
     // Đóng kết nối CSDL
     sqlsrv_close($conn);
     ?>
+    <?php include_once "../footer.php";?>
+
 </body>
 </html>

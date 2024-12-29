@@ -7,6 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin giảng viên</title>
+    <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
 <?php
@@ -15,7 +16,7 @@ include_once "../connection.php"; // Kết nối CSDL
 global $conn;
 
 // Kiểm tra xem user_id có tồn tại trong session hay không (giảng viên đã đăng nhập)
-if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id']; // Lấy user_id từ session (có thể là teacher_id của giảng viên)
 
     // Tạo câu lệnh SQL và chuẩn bị truy vấn
@@ -47,5 +48,7 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
 
 sqlsrv_close($conn); // Đóng kết nối CSDL
 ?>
+
+<?php include_once "../footer.php"?>
 </body>
 </html>

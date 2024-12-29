@@ -8,11 +8,12 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch dạy</title>
+    <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
 <?php
 include_once "nav_bar.php";
-include_once "connect.php";
+include_once "../connection.php";
 global $conn;
 
 // Form nhập học kỳ
@@ -67,6 +68,9 @@ if (isset($_POST['hocki'])) {
     // Giải phóng tài nguyên truy vấn
     sqlsrv_free_stmt($stmt);
 }
+
 ?>
+<?php include_once "../footer.php";?>
+
 </body>
 </html>

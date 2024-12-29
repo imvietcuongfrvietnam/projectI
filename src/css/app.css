@@ -1,14 +1,14 @@
-/* Reset margin and padding for all elements */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Basic Styling */
+/* Main Styling */
 html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.7em;
+    height: 100%; /* Đảm bảo chiều cao của body chiếm toàn bộ màn hình */
 }
 
 a {
@@ -33,7 +33,7 @@ p {
     margin: 10px 0;
 }
 
-/* Main container styling */
+/* Ultilities */
 .container {
     margin: auto;
     max-width: 1500px;
@@ -74,7 +74,7 @@ p {
 
 #navbar ul li a:hover, #navbar ul li a.current {
     background: #444;
-    color: #f7c08a;
+    color: #f7c08a
 }
 
 #navbar ul li form button {
@@ -87,7 +87,7 @@ p {
 
 #navbar ul li form button:hover {
     background: #444;
-    color: #f7c08a;
+    color: #f7c08a
 }
 
 /* Table Styling */
@@ -131,7 +131,7 @@ tr:nth-child(2n) {
 .table-submit-button:hover {
     cursor: pointer;
     background: #444;
-    color: #f7c08a;
+    color: #f7c08a
 }
 
 td a {
@@ -146,7 +146,7 @@ td a {
 
 td a:hover {
     background: #444;
-    color: #f7c08a;
+    color: #f7c08a
 }
 
 /* Form Styling */
@@ -167,7 +167,7 @@ td a:hover {
 }
 
 .form-wrap .form-group {
-    margin-top: 15px;
+    margin-top: 15px
 }
 
 .form-wrap .form-group label {
@@ -194,10 +194,10 @@ td a:hover {
 .form-wrap button:hover {
     cursor: pointer;
     background: #444;
-    color: #f7c08a;
+    color: #f7c08a
 }
 
-/* Search Box Styling */
+/* Search Box styling */
 .search-bar-container {
     width: 100%;
     display: flex;
@@ -245,4 +245,79 @@ td a:hover {
 
 .search-bar button:hover {
     background-color: #444;
+}
+
+/* Footer Styling */
+html, body {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Đảm bảo body chiếm toàn bộ chiều cao màn hình */
+}
+
+.content {
+    flex: 1; /* Giúp cho content chiếm không gian còn lại */
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: auto; /* Đảm bảo footer nằm ở dưới cùng */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-col {
+    flex: 1;
+    margin: 0 15px;
+}
+
+.footer-col h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.footer-col p, .footer-col ul {
+    font-size: 14px;
+}
+
+.footer-col ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: #f7c08a;
+    text-decoration: none;
+}
+
+.footer-col ul li a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border: 1px solid #444;
+    margin-top: 20px;
+}
+
+footer p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
 }

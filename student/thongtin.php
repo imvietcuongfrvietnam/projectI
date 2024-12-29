@@ -8,6 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin sinh viên</title>
+    <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
     <?php
@@ -58,6 +59,7 @@ session_start();
         sqlsrv_free_stmt($stmt); // Giải phóng tài nguyên bộ nhớ của truy vấn
         sqlsrv_close($conn); // Đóng kết nối CSDL
     ?>
+    <?php include_once "../footer.php";?>
 
 </body>
 </html>
