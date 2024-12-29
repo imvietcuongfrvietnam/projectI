@@ -11,6 +11,7 @@
     <?php
     include_once "nav_bar.php";
     include_once "../connection.php";
+    global $conn;
     ?>
 
     <h3>Tra cứu kết quả học tập</h3>
