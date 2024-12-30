@@ -76,7 +76,7 @@
             <li><a href="./quanlysinhvien.php">Quản lý sinh viên</a></li>
             <li><a href="./quanlygiangvien.php">Quản lý giảng viên</a></li>
             <li><a href="./quanlyhocki.php">Mở học kì</a></li>
-            <li><a href="./quanlyhocki.php">Quản lý môn học</a></li>
+            <li><a href="./quanlymonhoc.php">Quản lý môn học</a></li>
             <li><a href="../logout.php">Đăng xuất</a></li>
         </ul>
             </div>
