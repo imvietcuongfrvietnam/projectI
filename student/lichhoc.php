@@ -8,7 +8,6 @@ $student_id = $_SESSION['user_id'];
 
 // Kiểm tra nếu có yêu cầu chọn học kỳ từ người dùng
 $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
-
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -28,21 +27,8 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
     <label for="semester_id">Chọn học kỳ:</label>
     <select name="semester_id" id="semester_id">
         <option value="">Chọn học kỳ</option>
-        <option value="2023.2">2023.2</option>
-        <option value="2024.1">2024.1</option>
-    </select>
-
-    <?php
-        // Lấy danh sách các học kỳ từ bảng semester
-        $sql = "SELECT * FROM semester WHERE status = 'Mở đăng ký'";
-        $stmt = sqlsrv_query($conn, $sql);
-
-        if (sqlsrv_has_rows($stmt)) {
-            while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-                echo "<option value='" . $row['semester_id'] . "'>" . $row['semester_name'] . "</option>";
-            }
-        }
-        ?>
+        <option value="2023.2" <?php if($semester_id == "2023.2") echo "selected"; ?>>2023.2</option>
+        <option value="2024.1" <?php if($semester_id == "2024.1") echo "selected"; ?>>2024.1</option>
     </select>
     <button type="submit">Lọc lớp học</button>
 </form>
@@ -50,14 +36,14 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
 <?php
 // Nếu đã chọn học kỳ, tiếp tục thực hiện truy vấn lọc các lớp học đã đăng ký của sinh viên trong học kỳ đó
 if ($semester_id) {
-    $sql = "SELECT c.class_id, s.subject_name, t.teacher_name, sch.day_of_week, sch.time_slot 
+    $sql = "SELECT c.class_id, s.subject_name, t.teacher_name, sch.day_of_week, sch.time_start, sch.time_end 
                 FROM enroll e
                 JOIN class c ON e.class_id = c.class_id
                 JOIN subject s ON c.subject_id = s.subject_id
                 JOIN teacher t ON c.teacher_id = t.teacher_id
                 JOIN schedule sch ON c.class_id = sch.class_id
                 WHERE e.student_id = ? 
-                AND e.status = 'Đăng ký thành công'
+                AND e.status = 'Thành công'
                 AND c.semester_id = ?"; // Lọc theo học kỳ
 
     // Chuẩn bị câu truy vấn với prepared statement
@@ -72,7 +58,8 @@ if ($semester_id) {
                             <th>Tên môn học</th>
                             <th>Giảng viên</th>
                             <th>Ngày học</th>
-                            <th>Giờ học</th>
+                            <th>Giờ bắt đầu</th>
+                            <th>Giờ kết thúc</th>
                         </tr>";
 
             // Hiển thị các lớp đã đăng ký
@@ -82,7 +69,8 @@ if ($semester_id) {
                             <td>" . $row['subject_name'] . "</td>
                             <td>" . $row['teacher_name'] . "</td>
                             <td>" . $row['day_of_week'] . "</td>
-                            <td>" . $row['time_slot'] . "</td>
+                            <td>" . $row['time_start']->format('H:i') . "</td> <!-- Hiển thị giờ bắt đầu --> 
+                            <td>" . $row['time_end']->format('H:i') . "</td> <!-- Hiển thị giờ kết thúc -->
                         </tr>";
             }
 
@@ -99,7 +87,7 @@ if ($semester_id) {
 
 sqlsrv_close($conn);
 ?>
-<?php include_once "../footer.php";?>
+<?php include_once "../footer.php"; ?>
 
 </body>
 </html>

@@ -38,7 +38,7 @@ session_start();
                 } else {
                     // Nếu chưa, thực hiện chèn vào bảng `enroll`
                     $insert_sql = "INSERT INTO enroll (class_id, student_id, registration_date, status)
-                                   VALUES (?, ?, ?, 'Đã đăng ký')";
+                                   VALUES (?, ?, ?, N'Đã đăng ký')";
                     $insert_stmt = sqlsrv_prepare($conn, $insert_sql, [$class_id, $student_id, $registration_date]);
 
                     if (sqlsrv_execute($insert_stmt)) {
