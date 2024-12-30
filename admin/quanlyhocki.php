@@ -17,7 +17,8 @@ global $conn;
     <ul id="ls">
         <li><a href="./them_ki_hoc.php">Thêm kỳ học</a></li>
         <li><a href="./xoa_ki_hoc.php">Xóa kỳ học</a></li>
-        <li><a href="./cap_nhat_ki_hoc.php">Cập nhật kỳ học</a></li>
+        <li><a href="./cap_nhat_ki_hoc.php">Cập nhật kỳ học</a>
+        </li>
     </ul>
 </div>
 
@@ -31,6 +32,7 @@ global $conn;
             <th>Ngày bắt đầu</th>
             <th>Ngày kết thúc</th>
             <th>Trạng thái</th>
+            <th>Quản lý đăng ký</th>
         </tr>
         </thead>
         <tbody>
@@ -49,6 +51,14 @@ global $conn;
             echo "<td>" . $row['begin_date']->format('Y-m-d') . "</td>";
             echo "<td>" . $row['end_date']->format('Y-m-d') . "</td>";
             echo "<td>" . $row['status'] . "</td>";
+
+            // Add button for managing registration if status is "Mở đăng ký"
+            if ($row['status'] == 'Mở đăng ký') {
+                echo "<td><a href='./quan_ly_dang_ky.php?semester_id=" . $row['semester_id'] . "'>Quản lý đăng ký</a></td>";
+            } else {
+                echo "<td></td>";
+            }
+
             echo "</tr>";
         }
 
@@ -57,6 +67,7 @@ global $conn;
         </tbody>
     </table>
 </div>
+
 <?php include_once "../footer.php"; ?>
 </body>
 </html>
