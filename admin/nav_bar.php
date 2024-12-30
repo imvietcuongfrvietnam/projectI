@@ -66,22 +66,21 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
-<div class="nav_bar">
-    <nav id="nav">
-        <a href="#" id="logo">
-            <!-- Logo có thể là một hình ảnh hoặc một tên -->
-            <img src="../src/img/logo_admin.jpg" alt="Logo Admin">
-        </a>
+
+    <nav id="navbar">
+        <div class="container">
         <ul id="menu_admin">
-            <li><a href="/student_manage.php">Quản lý sinh viên</a></li>
-            <li><a href="/teacher_manage.php">Quản lý giảng viên</a></li>
-            <li><a href="/open_semester.php">Mở học kì</a></li>
-            <li><a href="/subject_manage.php">Quản lý môn học</a></li>
+            <li><a href="./quanlysinhvien.php">Quản lý sinh viên</a></li>
+            <li><a href="./quanlygiangvien.php">Quản lý giảng viên</a></li>
+            <li><a href="./quanlyhocki.php">Mở học kì</a></li>
+            <li><a href="./quanlyhocki.php">Quản lý môn học</a></li>
             <li><a href="../logout.php">Đăng xuất</a></li>
         </ul>
+            </div>
     </nav>
-</div>
+
 </body>
 </html>
