@@ -12,7 +12,7 @@
             <ul id = "menu_teacher">
                 <li><a href="./thongtin.php">Thông tin cá nhân</a></li>
                 <li><a href="./lichday.php">Lịch giảng dạy</a></li>
-                <li><a href="./dangky.php">Đăng kí lớp</a></li>
+                <li><a href="./themdiem.php">Cập nhật điểm sinh viên</a></li>
                 <li><a href="./lophoc.php">Quản lý lớp học</a></li>
                 <li><a href="../logout.php">Đăng xuất</a></li>
             </ul>
