@@ -76,18 +76,6 @@
             border: 1px solid #444;
             margin-top: 20px;
         }
-        .footer-col ul li a,
-        .footer-col p a {
-            color: #f7c08a; /* Đặt màu chữ sáng và dễ nhìn */
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-col ul li a:hover,
-        .footer-col p a:hover {
-            text-decoration: underline;
-            color: #ffc870; /* Đổi màu khi hover để thêm hiệu ứng */
-        }
 
         footer p {
             text-align: center;
@@ -108,7 +96,8 @@
     </style>
 </head>
 <body>
-
+<main>
+</main>
 <footer>
     <div class="footer-container">
         <div class="row">

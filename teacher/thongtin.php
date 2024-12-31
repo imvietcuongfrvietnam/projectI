@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "nav_bar.php"; // Thêm thanh điều hướng
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -10,8 +11,9 @@ session_start();
     <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
+<main>
 <?php
-include_once "nav_bar.php"; // Thêm thanh điều hướng
+
 include_once "../connection.php"; // Kết nối CSDL
 global $conn;
 
@@ -48,7 +50,8 @@ if (isset($_SESSION['user_id'])) {
 
 sqlsrv_close($conn); // Đóng kết nối CSDL
 ?>
+</main>
 
-<?php include_once "../footer.php"?>
 </body>
+<?php include_once "../footer.php"?>
 </html>

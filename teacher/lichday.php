@@ -1,5 +1,8 @@
 <?php
 session_start();
+include_once "nav_bar.php";
+include_once "../connection.php";
+global $conn;
 ?>
 
 <!DOCTYPE html>
@@ -11,10 +14,9 @@ session_start();
     <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
+<main>
 <?php
-include_once "nav_bar.php";
-include_once "../connection.php";
-global $conn;
+
 
 // Form nhập học kỳ
 echo '<form action="" method="POST">';
@@ -70,7 +72,7 @@ if (isset($_POST['hocki'])) {
 }
 
 ?>
-<?php include_once "../footer.php";?>
-
+</main>
 </body>
+<?php include_once "../footer.php";?>
 </html>

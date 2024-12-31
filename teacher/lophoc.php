@@ -1,5 +1,9 @@
 <?php
 session_start();
+include_once "nav_bar.php";
+include_once "../connection.php";
+
+global $conn;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,13 +13,8 @@ session_start();
     <title>Danh sách lớp học</title>
     <link rel="stylesheet" href="../src/css/app.css">
 </head>
-<body>
+<main>
     <?php
-    include_once "nav_bar.php"; 
-    include_once "../connection.php"; 
-
-    global $conn;
-
     // Kiểm tra nếu người dùng đã nhập học kỳ
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['semester_id']) && !empty($_POST['semester_id'])) {
         $semester_id = $_POST['semester_id']; // Lấy học kỳ từ form
@@ -69,7 +68,8 @@ session_start();
     // Đóng kết nối CSDL
     sqlsrv_close($conn);
     ?>
-    <?php include_once "../footer.php";?>
 
+</main>
 </body>
+<?php include_once "../footer.php";?>
 </html>

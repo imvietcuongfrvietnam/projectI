@@ -11,6 +11,7 @@
 <body>
 <?php
 include_once "nav_bar.php";?>
+<main> Chào mừng bạn đến với trang giảng viên </main>
 <?php include_once "../footer.php";?>
 
 </body>
