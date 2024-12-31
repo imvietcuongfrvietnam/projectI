@@ -4,50 +4,47 @@ include_once "nav_bar.php";
 include_once "../connection.php";
 global $conn;
 
-$subject_id = "";
-$subject_name = "";
-$credit = "";
+// Kiểm tra nếu có mã môn học trong URL
+if (isset($_GET['subject_id'])) {
+    $subject_id = $_GET['subject_id'];
 
+    // Truy vấn lấy thông tin môn học
+    $sql = "SELECT subject_name, credit FROM subject WHERE subject_id = ?";
+    $params = array($subject_id);
+    $stmt = sqlsrv_query($conn, $sql, $params);
+
+    if ($stmt === false) {
+        die("<p>Lỗi: " . print_r(sqlsrv_errors(), true) . "</p>");
+    }
+
+    $subject = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    if (!$subject) {
+        die("<p>Không tìm thấy môn học với mã $subject_id</p>");
+    }
+
+    sqlsrv_free_stmt($stmt);
+} else {
+    die("<p>Không có mã môn học được truyền.</p>");
+}
+
+// Xử lý cập nhật thông tin môn học
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST['search'])) {
-        // Tìm kiếm thông tin môn học
-        $subject_id = $_POST['subject_id'];
+    $updated_subject_id = $_POST['subject_id'];
+    $subject_name = $_POST['subject_name'];
+    $credit = $_POST['credit'];
 
-        $sql = "SELECT subject_name, credit FROM subject WHERE subject_id = ?";
-        $params = array($subject_id);
-        $stmt = sqlsrv_prepare($conn, $sql, $params);
+    // Truy vấn cập nhật thông tin môn học
+    $sql = "UPDATE subject SET subject_name = ?, credit = ? WHERE subject_id = ?";
+    $params = array($subject_name, $credit, $updated_subject_id);
+    $stmt = sqlsrv_prepare($conn, $sql, $params);
 
-        if (sqlsrv_execute($stmt)) {
-            $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-            if ($row) {
-                $subject_name = $row['subject_name'];
-                $credit = $row['credit'];
-            } else {
-                echo "<p>Không tìm thấy môn học với mã $subject_id.</p>";
-            }
-        } else {
-            echo "<p>Lỗi: " . print_r(sqlsrv_errors(), true) . "</p>";
-        }
-        sqlsrv_free_stmt($stmt);
+    if (sqlsrv_execute($stmt)) {
+        echo "<p>Cập nhật môn học thành công!</p>";
+    } else {
+        echo "<p>Lỗi: " . print_r(sqlsrv_errors(), true) . "</p>";
     }
 
-    if (isset($_POST['update'])) {
-        // Cập nhật thông tin môn học
-        $subject_id = $_POST['subject_id'];
-        $subject_name = $_POST['subject_name'];
-        $credit = $_POST['credit'];
-
-        $sql = "UPDATE subject SET subject_name = ?, credit = ? WHERE subject_id = ?";
-        $params = array($subject_name, $credit, $subject_id);
-        $stmt = sqlsrv_prepare($conn, $sql, $params);
-
-        if (sqlsrv_execute($stmt)) {
-            echo "<p>Cập nhật môn học thành công!</p>";
-        } else {
-            echo "<p>Lỗi: " . print_r(sqlsrv_errors(), true) . "</p>";
-        }
-        sqlsrv_free_stmt($stmt);
-    }
+    sqlsrv_free_stmt($stmt);
 }
 ?>
 
@@ -61,18 +58,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 <div class="form-container">
+    <h2>Cập nhật thông tin môn học</h2>
     <form method="POST" action="">
         <label for="subject_id">Mã môn học:</label>
-        <input type="text" id="subject_id" name="subject_id" value="<?= htmlspecialchars($subject_id) ?>" placeholder="Nhập mã môn học" required>
-        <button type="submit" name="search">Tìm kiếm</button>
+        <input type="text" id="subject_id" name="subject_id" value="<?php echo htmlspecialchars($subject_id); ?>" readonly required>
         <br><br>
+
         <label for="subject_name">Tên môn học:</label>
-        <input type="text" id="subject_name" name="subject_name" value="<?= htmlspecialchars($subject_name) ?>" placeholder="Nhập tên môn học" required>
+        <input type="text" id="subject_name" name="subject_name" value="<?php echo htmlspecialchars($subject['subject_name']); ?>" required>
         <br><br>
+
         <label for="credit">Số tín chỉ:</label>
-        <input type="number" id="credit" name="credit" value="<?= htmlspecialchars($credit) ?>" placeholder="Nhập số tín chỉ" required>
+        <input type="number" id="credit" name="credit" value="<?php echo htmlspecialchars($subject['credit']); ?>" required>
         <br><br>
-        <button type="submit" name="update">Cập nhật môn học</button>
+
+        <button type="submit">Cập nhật môn học</button>
     </form>
 </div>
 <?php include_once "../footer.php"; ?>
