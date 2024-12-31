@@ -27,8 +27,21 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
     <label for="semester_id">Chọn học kỳ:</label>
     <select name="semester_id" id="semester_id">
         <option value="">Chọn học kỳ</option>
-        <option value="2023.2" <?php if($semester_id == "2023.2") echo "selected"; ?>>2023.2</option>
-        <option value="2024.1" <?php if($semester_id == "2024.1") echo "selected"; ?>>2024.1</option>
+        <?php
+        // Truy vấn để lấy danh sách semester_id
+        $sql = "SELECT semester_id, semester_name FROM semester";
+        $stmt = sqlsrv_query($conn, $sql);
+
+        if ($stmt) {
+            while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                $selected = isset($semester_id) && $semester_id == $row['semester_id'] ? "selected" : "";
+                echo "<option value='" . $row['semester_id'] . "' $selected>" . $row['semester_name'] . "</option>";
+            }
+            sqlsrv_free_stmt($stmt);
+        } else {
+            echo "<option value=''>Không có học kỳ</option>";
+        }
+        ?>
     </select>
     <button type="submit">Lọc lớp học</button>
 </form>

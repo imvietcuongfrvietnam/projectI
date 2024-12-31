@@ -11,22 +11,15 @@
             padding: 0;
         }
 
-        .nav_bar {
-            background-color: #333;
-            padding: 10px 0;
-        }
-
-        #nav {
+        /* Đặt navbar cố định ở đầu trang */
+        #navbar {
+            position: fixed; /* Đảm bảo navbar luôn cố định */
+            top: 0;
+            left: 0;
             width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        #logo img {
-            width: 100px;
-            height: auto;
+            background-color: #333; /* Màu nền cho navbar */
+            z-index: 1000; /* Đảm bảo navbar luôn nằm trên các phần tử khác */
+            padding: 10px 0; /* Thêm padding cho navbar */
         }
 
         #menu_admin {
@@ -34,6 +27,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            justify-content: center; /* Canh giữa các mục trong navbar */
         }
 
         #menu_admin li {
@@ -65,13 +59,18 @@
                 margin-bottom: 10px;
             }
         }
+
+        /* Thêm padding cho body để tránh navbar che mất nội dung */
+        body {
+            padding-top: 60px; /* Thêm khoảng cách phía trên body để không bị che bởi navbar */
+        }
     </style>
     <link rel="stylesheet" href="../src/css/app.css">
 </head>
 <body>
 
-    <nav id="navbar">
-        <div class="container">
+<nav id="navbar">
+    <div class="container">
         <ul id="menu_admin">
             <li><a href="./quanlysinhvien.php">Quản lý sinh viên</a></li>
             <li><a href="./quanlygiangvien.php">Quản lý giảng viên</a></li>
@@ -79,8 +78,8 @@
             <li><a href="./quanlymonhoc.php">Quản lý môn học</a></li>
             <li><a href="../logout.php">Đăng xuất</a></li>
         </ul>
-            </div>
-    </nav>
+    </div>
+</nav>
 
 </body>
 </html>

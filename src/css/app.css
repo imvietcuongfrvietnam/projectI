@@ -9,6 +9,9 @@ html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.7em;
     height: 100%; /* Đảm bảo chiều cao của body chiếm toàn bộ màn hình */
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
 }
 
 a {
@@ -46,6 +49,12 @@ p {
     background: #333;
     color: #fff;
     overflow: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Đảm bảo navbar nằm trên các phần tử khác */
+    padding: 10px 0;
 }
 
 #navbar a {
@@ -88,6 +97,11 @@ p {
 #navbar ul li form button:hover {
     background: #444;
     color: #f7c08a
+}
+
+/* Adjust body content for navbar */
+body {
+    padding-top: 60px; /* Thêm khoảng cách trên để tránh bị che khuất bởi navbar */
 }
 
 /* Table Styling */

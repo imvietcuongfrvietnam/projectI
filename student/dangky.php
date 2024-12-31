@@ -62,13 +62,14 @@ if ($semester) {
 }
 
 // Kiểm tra trước khi giải phóng câu lệnh
-if ($stmt) {
+if (isset($stmt)) {
     sqlsrv_free_stmt($stmt);
 }
-if ($stmt_classes) {
+if (isset($stmt_classes) && $stmt_classes !== false) {
     sqlsrv_free_stmt($stmt_classes);
 }
 sqlsrv_close($conn);
+
 ?>
 
 <?php include_once "../footer.php";?>
