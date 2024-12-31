@@ -28,14 +28,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xóa môn học</title>
+    <link rel="stylesheet" href="../src/css/form.css">
 </head>
 <body>
+<div class = "form-container">
 <form method="POST" action="">
     <label for="subject_id">Mã môn học cần xóa:</label>
     <input type="text" id="subject_id" name="subject_id" placeholder="Nhập mã môn học" required>
     <br><br>
     <button type="submit">Xóa môn học</button>
 </form>
-<?php include_once "../footer.php"; ?>
+
+</div>
 </body>
 </html>
+<?php include_once "../footer.php"; ?>

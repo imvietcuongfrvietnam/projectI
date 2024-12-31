@@ -31,8 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cập nhật thông tin giảng viên</title>
+    <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
+
 </head>
 <body>
+<div class="form-container">
 <form method="POST" action="">
     <label for="teacher_id">Nhập Mã Giảng Viên:</label>
     <input type="text" id="teacher_id" name="teacher_id" placeholder="Nhập mã giảng viên" required>
@@ -48,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <br><br>
     <button type="submit">Cập nhật</button>
 </form>
+</div>
 <?php include_once "../footer.php"; ?>
 </body>
 </html>

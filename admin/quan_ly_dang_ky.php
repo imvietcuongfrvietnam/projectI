@@ -5,6 +5,7 @@ include_once "../connection.php";
 global $conn;
 
 // Get semester_id from URL
+
 $semester_id = $_GET['semester_id'];
 ?>
 
@@ -14,8 +15,11 @@ $semester_id = $_GET['semester_id'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý đăng ký - Kỳ học</title>
+    <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
+
 </head>
 <body>
+<div class="form-container">
 <h2>Quản lý đăng ký cho kỳ học: <?php echo $semester_id; ?></h2>
 
 <div id="registration-management">
@@ -116,6 +120,8 @@ $semester_id = $_GET['semester_id'];
     </form>
 </div>
 
-<?php include_once "../footer.php"; ?>
+
+</div>
 </body>
 </html>
+<?php include_once "../footer.php"; ?>

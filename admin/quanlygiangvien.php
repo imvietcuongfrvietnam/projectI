@@ -7,7 +7,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý giảng viên</title>
-    <link rel="stylesheet" href="../src/css/app.css">
+    <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
+
 </head>
 <body>
 <?php

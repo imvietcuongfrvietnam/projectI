@@ -1,0 +1,62 @@
+
+    /* Inline styles for form alignment */
+.form-container {
+    margin: 30px auto;
+    max-width: 2000px; /* Tăng chiều rộng bảng gấp 2.5 lần */
+    padding: 20px;
+}
+
+.form-container form {
+    flex-direction: column;
+    gap: 20px; /* Khoảng cách giữa các trường */
+    background: #fff;
+    padding: 30px; /* Padding giữ nguyên để tránh quá lớn */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-container label {
+    font-weight: bold;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+    margin-top: 30px; /* Thêm khoảng cách giữa button và các trường nhập liệu */
+}
+
+.form-container button:hover {
+    background: #444;
+    color: #f7c08a;
+}
+
+/* Đảm bảo giao diện đẹp trên màn hình nhỏ */
+@media (max-width: 1200px) {
+    .form-container {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .form-container form {
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .form-container button {
+        font-size: 1.2em;
+        padding: 15px;
+    }
+}

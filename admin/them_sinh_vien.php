@@ -31,23 +31,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm sinh viên</title>
+    <link rel="stylesheet" href="../src/css/form.css">
 </head>
 <body>
-<form method="POST" action="">
-    <label for="fullname">Họ và Tên:</label>
-    <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên" required>
-    <br><br>
-    <label for="email">Email cấp: </label>
-    <input type="text" id="email" name="email" placeholder="Nhập email cấp cho sinh viên" required>
-    <br><br>
-    <label for="dob">Ngày sinh: </label>
-    <input type="date" id="student_dob" name="student_dob" placeholder="Nhập ngày sinh sinh viên" required> <!-- Đúng tên biến -->
-    <br><br>
-    <label for="student_id">Mã số sinh viên cấp: </label>
-    <input type="text" id="student_id" name="student_id" placeholder="Nhập mã sinh viên cấp" required>
-    <br><br>
-    <button type="submit">Thêm sinh viên</button>
-</form>
-<?php include_once "../footer.php"; ?>
+<div class="form-container">
+    <form method="POST" action="">
+        <label for="fullname">Họ và Tên:</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên" required>
+
+        <label for="email">Email cấp:</label>
+        <input type="text" id="email" name="email" placeholder="Nhập email cấp cho sinh viên" required>
+
+        <label for="dob">Ngày sinh:</label>
+        <input type="date" id="student_dob" name="student_dob" required>
+
+        <label for="student_id">Mã số sinh viên cấp:</label>
+        <input type="text" id="student_id" name="student_id" placeholder="Nhập mã sinh viên cấp" required>
+
+        <button type="submit">Thêm sinh viên</button>
+    </form>
+</div>
 </body>
 </html>
+<?php include_once "../footer.php"; ?>

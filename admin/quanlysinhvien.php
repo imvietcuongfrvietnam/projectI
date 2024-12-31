@@ -49,7 +49,7 @@ global $conn;
             echo "<tr>";
             echo "<td>" . $row['student_id'] . "</td>";
             echo "<td>" . $row['student_name'] . "</td>";
-            echo "<td>" . $row['student_dob']->format('Y-m-d') . "</td>"; // Format ngày sinh
+            echo "<td>" . $row['student_dob']->format('d-m-Y') . "</td>"; // Format ngày sinh
             echo "<td>" . $row['email'] . "</td>";
             echo "</tr>";
         }

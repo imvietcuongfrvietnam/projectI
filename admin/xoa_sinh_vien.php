@@ -28,14 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xóa sinh viên</title>
+    <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
 </head>
 <body>
-<form method="POST" action="">
-    <label for="student_id">Nhập MSSV cần xóa:</label>
-    <input type="text" id="student_id" name="student_id" placeholder="Nhập Mã số sinh viên" required>
-    <br><br>
-    <button type="submit">Xóa sinh viên</button>
-</form>
+<div class="form-container">
+    <form method="POST" action="">
+        <label for="student_id">Nhập MSSV cần xóa:</label>
+        <input type="text" id="student_id" name="student_id" placeholder="Nhập Mã số sinh viên" required>
+
+        <button type="submit">Xóa sinh viên</button>
+    </form>
+</div>
 <?php include_once "../footer.php"; ?>
 </body>
 </html>

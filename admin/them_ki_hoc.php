@@ -32,8 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm kỳ học</title>
+    <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
+
 </head>
 <body>
+<div class="form-container">
+
 <form method="POST" action="">
     <label for="semester_id">Mã kỳ học:</label>
     <input type="text" id="semester_id" name="semester_id" placeholder="Nhập mã kỳ học" required>
@@ -52,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <br><br>
     <button type="submit">Thêm kỳ học</button>
 </form>
+</div>
 <?php include_once "../footer.php"; ?>
 </body>
 </html>
