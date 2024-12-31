@@ -9,36 +9,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approve'])) {
     $semester_id = $_POST['semester_id'];
 
     try {
-        // Truy vấn cập nhật trạng thái của sinh viên trong enroll
-        $sql_update_status = "			UPDATE enroll 
-SET [status] = N'Thành công'
-WHERE [status] = N'Đã đăng ký' -- Sử dụng 'Đ' thay vì 'Ð'
-AND class_id IN (
-    SELECT class_id 
-    FROM class 
-    WHERE semester_id = N'2024.3'
-);";
+        // Cập nhật trạng thái trong bảng enroll
+        $sql_update_status = "
+            UPDATE enroll 
+            SET [status] = N'Thành công'
+            WHERE [status] = N'Đã đăng ký'
+            AND class_id IN (
+                SELECT class_id 
+                FROM class 
+                WHERE semester_id = ?
+            );
+        ";
 
-        // Chuẩn bị câu lệnh SQL
         $stmt = sqlsrv_prepare($conn, $sql_update_status, [$semester_id]);
-
         if (!$stmt) {
             throw new Exception("Lỗi chuẩn bị câu lệnh SQL: " . print_r(sqlsrv_errors(), true));
         }
 
-        // Thực thi câu lệnh SQL
         $result = sqlsrv_execute($stmt);
-
         if (!$result) {
             throw new Exception("Lỗi thực thi câu lệnh SQL: " . print_r(sqlsrv_errors(), true));
         }
 
-        // Cập nhật thành công
+        // Lấy danh sách sinh viên và lớp để thêm vào transcript
+        $sql_get_classes = "
+            SELECT e.student_id, e.class_id, c.subject_id
+            FROM enroll e
+            JOIN class c ON e.class_id = c.class_id
+            WHERE c.semester_id = ? AND e.[status] = N'Thành công'
+        ";
+
+        $stmt_classes = sqlsrv_prepare($conn, $sql_get_classes, [$semester_id]);
+        if (!$stmt_classes) {
+            throw new Exception("Lỗi chuẩn bị câu lệnh lấy dữ liệu: " . print_r(sqlsrv_errors(), true));
+        }
+
+        $result_classes = sqlsrv_execute($stmt_classes);
+        if (!$result_classes) {
+            throw new Exception("Lỗi thực thi câu lệnh lấy dữ liệu: " . print_r(sqlsrv_errors(), true));
+        }
+
+        // Thêm dữ liệu vào bảng transcript
+        $added_count = 0;
+        while ($row = sqlsrv_fetch_array($stmt_classes, SQLSRV_FETCH_ASSOC)) {
+            $insert_transcript_sql = "
+                INSERT INTO transcript (student_id, class_id, semester_id, subject_id, score, grade, status)
+                VALUES (?, ?, ?, ?, NULL, NULL, NULL)
+            ";
+
+            $insert_stmt = sqlsrv_prepare($conn, $insert_transcript_sql, [
+                $row['student_id'],
+                $row['class_id'],
+                $semester_id,
+                $row['subject_id']
+            ]);
+
+            if (!$insert_stmt) {
+                throw new Exception("Lỗi chuẩn bị câu lệnh chèn vào transcript: " . print_r(sqlsrv_errors(), true));
+            }
+
+            $insert_result = sqlsrv_execute($insert_stmt);
+            if ($insert_result) {
+                $added_count++;
+            } else {
+                throw new Exception("Lỗi thực thi câu lệnh chèn vào transcript: " . print_r(sqlsrv_errors(), true));
+            }
+        }
+
+        // Hiển thị số bản ghi đã thêm
+        if ($added_count > 0) {
+            echo "Đã thêm $added_count bản ghi vào bảng transcript.";
+        } else {
+            echo "Không có bản ghi nào được thêm vào bảng transcript.";
+        }
+
+        // Chuyển hướng sau khi thành công
         header("Location: ../admin/quan_ly_dang_ky.php?semester_id=" . $semester_id);
-        exit(); // Dừng script sau khi chuyển hướng
+        exit();
 
     } catch (Exception $e) {
-        // Nếu có lỗi trong quá trình xử lý
         echo "Đã xảy ra lỗi: " . $e->getMessage();
     }
 } else {

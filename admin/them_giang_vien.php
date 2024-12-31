@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sql = "INSERT INTO teacher (teacher_id, teacher_name, teacher_dob, email) VALUES (?, ?, ?, ?)";
     $params = array($teacher_id, $fullname, $dob, $email);
     $stmt = sqlsrv_prepare($conn, $sql, $params);
-
     if (sqlsrv_execute($stmt)) {
         echo "<p>Thêm giảng viên thành công!</p>";
     } else {

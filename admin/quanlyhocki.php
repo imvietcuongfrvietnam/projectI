@@ -16,7 +16,6 @@ global $conn;
 <div id="menu">
     <ul id="ls">
         <li><a href="./them_ki_hoc.php">Thêm kỳ học</a></li>
-        <li><a href="./xoa_ki_hoc.php">Xóa kỳ học</a></li>
         <li><a href="./cap_nhat_ki_hoc.php">Cập nhật kỳ học</a>
         </li>
     </ul>

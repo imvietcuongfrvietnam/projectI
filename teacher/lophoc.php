@@ -2,73 +2,87 @@
 session_start();
 include_once "nav_bar.php";
 include_once "../connection.php";
-
 global $conn;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách lớp học</title>
+    <title>Lịch dạy</title>
     <link rel="stylesheet" href="../src/css/app.css">
 </head>
+<body>
 <main>
     <?php
-    // Kiểm tra nếu người dùng đã nhập học kỳ
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['semester_id']) && !empty($_POST['semester_id'])) {
-        $semester_id = $_POST['semester_id']; // Lấy học kỳ từ form
-        $teacher_id = $_SESSION['user_id']; // Lấy ID giảng viên từ session
+    // Form nhập học kỳ
+    echo '<form action="" method="POST">';
+    echo 'Nhập học kì: <input type="text" name="hocki" required>';
+    echo '<button type="submit">Tìm lịch dạy</button>';
+    echo '</form>';
 
-        // Tạo câu lệnh SQL để lấy danh sách lớp theo giảng viên và học kỳ
-        $sql = "SELECT c.class_id, s.subject_name
-                FROM class c
-                JOIN subject s ON c.subject_id = s.subject_id
-                WHERE c.teacher_id = ? AND c.semester_id = ?";
-        $params = [$teacher_id, $semester_id];
+    if (isset($_POST['hocki'])) {
+        // Lấy giá trị học kỳ từ form
+        $hocki = $_POST['hocki'];
+
+        // Truy vấn lấy lịch dạy theo học kỳ và giảng viên
+        $sql = "
+        SELECT c.class_id, c.subject_id, s.subject_name, s.credit, 
+               sc.day_of_week, sc.time_start, sc.time_end, sc.location
+        FROM schedule sc
+        JOIN class c ON sc.class_id = c.class_id
+        JOIN subject s ON c.subject_id = s.subject_id
+        WHERE c.semester_id = ? 
+        AND c.teacher_id = ?";
+
+        // Tạo mảng tham số để chuẩn bị truy vấn
+        $param = [$hocki, $_SESSION['user_id']];
 
         // Chuẩn bị và thực thi truy vấn
-        $stmt = sqlsrv_prepare($conn, $sql, $params);
+        $stmt = sqlsrv_prepare($conn, $sql, $param);
+        if ($stmt && sqlsrv_execute($stmt)) {
+            // Kiểm tra nếu có kết quả trả về
+            $rows = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+            if ($rows) {
+                // Hiển thị lịch dạy nếu có lớp
+                echo '<table border="1">';
+                echo '<tr>
+                        <th>Mã lớp</th>
+                        <th>Mã môn học</th>
+                        <th>Tên môn học</th>
+                        <th>Số tín chỉ</th>
+                        <th>Ngày học</th>
+                        <th>Thời gian bắt đầu</th>
+                        <th>Thời gian kết thúc</th>
+                        <th>Địa điểm</th>
+                      </tr>';
 
-        if (sqlsrv_execute($stmt)) {
-            // Kiểm tra kết quả
-            $row_count = sqlsrv_num_rows($stmt);
-            if ($row_count > 0) {
-                // Nếu có lớp, hiển thị danh sách lớp
-                echo "<h3>Danh sách lớp học của bạn trong học kỳ: $semester_id</h3>";
-                echo "<table border='1'>";
-                echo "<tr><th>Mã lớp</th><th>Tên môn</th></tr>";
+                do {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($rows['class_id']) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['subject_id']) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['subject_name']) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['credit']) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['day_of_week']) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['time_start']->format('H:i:s')) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['time_end']->format('H:i:s')) . '</td>';
+                    echo '<td>' . htmlspecialchars($rows['location']) . '</td>';
+                    echo '</tr>';
+                } while ($rows = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC));
 
-                // Duyệt và hiển thị từng lớp học
-                while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['class_id']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['subject_name']) . "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
+                echo '</table>';
             } else {
-                // Nếu không có lớp nào
-                echo "Kỳ này bạn không nhận lớp nào cả.";
+                echo '<p>Không có lớp dạy nào trong học kỳ này.</p>';
             }
         } else {
-            // Nếu truy vấn không thành công
-            echo "Lỗi khi truy vấn dữ liệu.";
+            echo '<p>Lỗi khi thực hiện truy vấn.</p>';
         }
-    } else {
-        // Form nhập học kỳ
-        echo '<h3>Chọn học kỳ để xem danh sách lớp học:</h3>';
-        echo '<form method="POST" action="">
-                <label for="semester_id">Chọn học kỳ: </label>
-                <input type="text" name="semester_id" required placeholder="Nhập học kỳ (ví dụ: 2024.1)">
-                <button type="submit">Xem lớp học</button>
-              </form>';
+
+        // Giải phóng tài nguyên truy vấn
+        sqlsrv_free_stmt($stmt);
     }
-
-    // Đóng kết nối CSDL
-    sqlsrv_close($conn);
     ?>
-
 </main>
 </body>
 <?php include_once "../footer.php";?>

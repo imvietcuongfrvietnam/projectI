@@ -1,5 +1,7 @@
-<?php global $conn;
-session_start(); ?>
+<?php
+global $conn;
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -33,26 +35,25 @@ if ($semester) {
 
     // Lấy danh sách lớp học của học kỳ đang mở
     $sql_classes = "SELECT c.class_id, s.subject_name
-                            FROM class c 
-                            JOIN subject s ON c.subject_id = s.subject_id
-                            WHERE c.semester_id = ?";
+                    FROM class c 
+                    JOIN subject s ON c.subject_id = s.subject_id
+                    WHERE c.semester_id = ?";
     $stmt_classes = sqlsrv_prepare($conn, $sql_classes, array($semester_id));
 
     if (sqlsrv_execute($stmt_classes)) {
-        echo "<form method='POST' action='register_class.php'>";
+        echo "<form method='POST' action='./register_class.php'>"; // Chuyển đến xử lý đăng ký
         echo "<table>";
-        echo "<tr><th>Mã lớp</th><th>Tên môn học</th><th>Chọn đăng ký</th></tr>";
+        echo "<tr><th>Mã lớp</th><th>Tên môn học</th><th>Đăng ký</th></tr>";
 
         while ($row = sqlsrv_fetch_array($stmt_classes, SQLSRV_FETCH_ASSOC)) {
             echo "<tr>";
             echo "<td>" . $row['class_id'] . "</td>";
             echo "<td>" . $row['subject_name'] . "</td>";
-            echo "<td><input type='checkbox' name='classes[]' value='" . $row['class_id'] . "'></td>";
+            echo "<td><button type='submit' name='class_id' value='" . $row['class_id'] . "'>Đăng ký</button></td>";
             echo "</tr>";
         }
 
         echo "</table>";
-        echo "<button type='submit' name='submit'>Đăng ký lớp</button>";
         echo "</form>";
     } else {
         echo "Không có lớp học nào trong học kỳ này.";
@@ -69,7 +70,6 @@ if (isset($stmt_classes) && $stmt_classes !== false) {
     sqlsrv_free_stmt($stmt_classes);
 }
 sqlsrv_close($conn);
-
 ?>
 
 <?php include_once "../footer.php";?>

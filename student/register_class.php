@@ -13,78 +13,88 @@ session_start();
 </head>
 <body>
 <?php
-include_once "../connection.php";
 include_once "nav_bar.php";
+include_once "../connection.php";
 
 // Khởi tạo biến lỗi
 $error = null;
 
 // Kiểm tra xem người dùng có gửi form hay không
-if (isset($_POST['submit'])) {
+if (isset($_POST['class_id'])) {
     $student_id = $_SESSION['user_id']; // Lấy mã sinh viên từ session
-    $classes = $_POST['classes']; // Danh sách lớp được chọn từ form
+    $class_id = $_POST['class_id']; // Lớp học được chọn từ form
 
     try {
-        if (!empty($classes)) {
-            $registration_date = date('Y-m-d H:i:s'); // Ngày đăng ký hiện tại
-            $success_count = 0;
-            $error_count = 0;
+        // Kiểm tra xem sinh viên đã đăng ký lớp này chưa
+        $check_class_sql = "SELECT * FROM enroll WHERE student_id = ? AND class_id = ?";
+        $check_class_stmt = sqlsrv_prepare($conn, $check_class_sql, [$student_id, $class_id]);
 
-            foreach ($classes as $class_id) {
-                // Kiểm tra xem sinh viên đã đăng ký lớp này chưa
-                $check_sql = "SELECT * FROM enroll WHERE student_id = ? AND class_id = ?";
-                $check_stmt = sqlsrv_prepare($conn, $check_sql, [$student_id, $class_id]);
-
-                if (!$check_stmt) {
-                    throw new Exception("Lỗi chuẩn bị câu lệnh kiểm tra đăng ký: " . print_r(sqlsrv_errors(), true));
-                }
-
-                $result = sqlsrv_execute($check_stmt);
-
-                if (!$result) {
-                    throw new Exception("Lỗi thực thi câu lệnh kiểm tra đăng ký: " . print_r(sqlsrv_errors(), true));
-                }
-
-                if (sqlsrv_fetch_array($check_stmt, SQLSRV_FETCH_ASSOC)) {
-                    // Nếu đã đăng ký lớp, tăng biến đếm lỗi
-                    $error_count++;
-                } else {
-                    // Nếu chưa, thực hiện chèn vào bảng `enroll`
-                    $insert_sql = "INSERT INTO enroll (class_id, student_id, registration_date, status)
-                                   VALUES (?, ?, ?, N'Đã đăng ký')";
-                    $insert_stmt = sqlsrv_prepare($conn, $insert_sql, [$class_id, $student_id, $registration_date]);
-
-                    if (!$insert_stmt) {
-                        throw new Exception("Lỗi chuẩn bị câu lệnh chèn đăng ký: " . print_r(sqlsrv_errors(), true));
-                    }
-
-                    $insert_result = sqlsrv_execute($insert_stmt);
-
-                    if ($insert_result) {
-                        $success_count++;
-                    } else {
-                        $error_count++;
-                        // Ghi lỗi từ SQL nếu có
-                        $error = "Lỗi thực thi câu lệnh chèn đăng ký: " . print_r(sqlsrv_errors(), true);
-                        throw new Exception($error);
-                    }
-                }
-
-                sqlsrv_free_stmt($check_stmt);
-            }
-
-            // Hiển thị thông báo kết quả
-            echo "<h3>Kết quả đăng ký lớp:</h3>";
-            echo "<p>Đăng ký thành công: $success_count lớp.</p>";
-            echo "<p>Lớp đã đăng ký trước đó hoặc lỗi: $error_count lớp.</p>";
-            if ($error != null) {
-                echo "<p>Nguyên nhân lỗi: $error</p>";
-            }
-        } else {
-            echo "<p>Vui lòng chọn ít nhất một lớp để đăng ký.</p>";
+        if (!$check_class_stmt || !sqlsrv_execute($check_class_stmt)) {
+            throw new Exception("Lỗi khi kiểm tra lớp đăng ký: " . print_r(sqlsrv_errors(), true));
         }
+
+        if (sqlsrv_fetch_array($check_class_stmt, SQLSRV_FETCH_ASSOC)) {
+            // Nếu đã đăng ký lớp này, báo lỗi
+            echo "<p>Lỗi: Bạn đã đăng ký lớp này rồi.</p>";
+        } else {
+            // Kiểm tra môn học của lớp này
+            $class_sql = "
+                SELECT s.subject_id 
+                FROM class c 
+                JOIN subject s ON c.subject_id = s.subject_id 
+                WHERE c.class_id = ?
+            ";
+            $class_stmt = sqlsrv_prepare($conn, $class_sql, [$class_id]);
+
+            if (!$class_stmt || !sqlsrv_execute($class_stmt)) {
+                throw new Exception("Lỗi khi kiểm tra môn học của lớp: " . print_r(sqlsrv_errors(), true));
+            }
+
+            $class_row = sqlsrv_fetch_array($class_stmt, SQLSRV_FETCH_ASSOC);
+            $subject_id = $class_row['subject_id'];
+
+            // Kiểm tra xem sinh viên đã đăng ký môn học này chưa
+            $check_subject_sql = "
+                SELECT c.subject_id 
+                FROM class c 
+                JOIN enroll e ON c.class_id = e.class_id 
+                WHERE e.student_id = ? AND c.subject_id = ? AND c.semester_id = (
+                    SELECT semester_id FROM class WHERE class_id = ?
+                )
+            ";
+            $check_subject_stmt = sqlsrv_prepare($conn, $check_subject_sql, [$student_id, $subject_id, $class_id]);
+
+            if (!$check_subject_stmt || !sqlsrv_execute($check_subject_stmt)) {
+                throw new Exception("Lỗi khi kiểm tra môn học đã đăng ký: " . print_r(sqlsrv_errors(), true));
+            }
+
+            if (sqlsrv_fetch_array($check_subject_stmt, SQLSRV_FETCH_ASSOC)) {
+                // Nếu đã đăng ký môn học này, báo lỗi
+                echo "<p>Lỗi: Bạn đã đăng ký môn học này rồi.</p>";
+            } else {
+                // Nếu chưa đăng ký lớp và môn, thực hiện đăng ký
+                $registration_date = date('Y-m-d H:i:s');
+                $insert_sql = "
+                    INSERT INTO enroll (class_id, student_id, registration_date, status) 
+                    VALUES (?, ?, ?, N'Đã đăng ký')
+                ";
+                $insert_stmt = sqlsrv_prepare($conn, $insert_sql, [$class_id, $student_id, $registration_date]);
+
+                if (!$insert_stmt || !sqlsrv_execute($insert_stmt)) {
+                    throw new Exception("Lỗi khi thực hiện đăng ký lớp học: " . print_r(sqlsrv_errors(), true));
+                }
+
+                echo "<p>Đăng ký lớp học thành công!</p>";
+            }
+        }
+
+        // Giải phóng tài nguyên
+        if ($check_class_stmt) sqlsrv_free_stmt($check_class_stmt);
+        if ($check_subject_stmt) sqlsrv_free_stmt($check_subject_stmt);
+        if ($class_stmt) sqlsrv_free_stmt($class_stmt);
+
     } catch (Exception $e) {
-        // Bắt lỗi và hiển thị thông báo lỗi
+        // Bắt lỗi và hiển thị thông báo
         echo "<p>Đã xảy ra lỗi trong quá trình đăng ký lớp:</p>";
         echo "<p>Lỗi: " . $e->getMessage() . "</p>";
     }

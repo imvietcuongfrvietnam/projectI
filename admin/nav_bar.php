@@ -62,7 +62,7 @@
 
         /* Thêm padding cho body để tránh navbar che mất nội dung */
         body {
-            padding-top: 60px; /* Thêm khoảng cách phía trên body để không bị che bởi navbar */
+            padding-top: 30px; /* Thêm khoảng cách phía trên body để không bị che bởi navbar */
         }
     </style>
     <link rel="stylesheet" href="../src/css/app.css">

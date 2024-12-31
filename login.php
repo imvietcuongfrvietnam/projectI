@@ -103,8 +103,8 @@ unset($_SESSION['error']); // Xóa thông báo sau khi hiển thị
 
         </form>
     </div>
-
 </div>
+<a href="helper/forgot_password.php" >
 </body>
 </html>
 
