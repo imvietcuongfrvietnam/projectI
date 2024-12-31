@@ -2,7 +2,7 @@
     /* Inline styles for form alignment */
 .form-container {
     margin: 30px auto;
-    max-width: 2000px; /* Tăng chiều rộng bảng gấp 2.5 lần */
+    max-width: 600px;
     padding: 20px;
 }
 

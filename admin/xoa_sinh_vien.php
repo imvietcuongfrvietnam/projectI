@@ -4,8 +4,9 @@ include_once "nav_bar.php";
 include_once "../connection.php";
 global $conn;
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $student_id = $_POST['student_id'];
+// Kiểm tra nếu có mã sinh viên để xóa
+if (isset($_GET['student_id'])) {
+    $student_id = $_GET['student_id'];
 
     // Truy vấn xóa sinh viên
     $sql = "DELETE FROM student WHERE student_id = ?";
@@ -13,12 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = sqlsrv_prepare($conn, $sql, $params);
 
     if (sqlsrv_execute($stmt)) {
-        echo "<p>Xóa sinh viên thành công!</p>";
+        $message = "Xóa sinh viên thành công!";
     } else {
-        echo "<p>Lỗi: " . print_r(sqlsrv_errors(), true) . "</p>";
+        $message = "Lỗi: " . print_r(sqlsrv_errors(), true);
     }
 
     sqlsrv_free_stmt($stmt);
+} else {
+    $message = "Không có MSSV để xóa.";
 }
 ?>
 
@@ -28,17 +31,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xóa sinh viên</title>
-    <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
+    <link rel="stylesheet" href="../src/css/form.css">
+    <style>
+        .message {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: fit-content;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 <div class="form-container">
-    <form method="POST" action="">
-        <label for="student_id">Nhập MSSV cần xóa:</label>
-        <input type="text" id="student_id" name="student_id" placeholder="Nhập Mã số sinh viên" required>
-
-        <button type="submit">Xóa sinh viên</button>
-    </form>
+    <div class="message">
+        <?php echo $message; ?>
+    </div>
+    <a href="./quanlysinhvien.php" class="back-button">Quay lại trang quản lý sinh viên</a>
 </div>
-<?php include_once "../footer.php"; ?>
 </body>
 </html>
+<?php include_once "../footer.php"; ?>

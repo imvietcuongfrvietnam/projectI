@@ -1,0 +1,31 @@
+#menu {
+    background-color: #333; /* Màu nền của menu */
+    padding: 10px; /* Thêm khoảng cách xung quanh */
+}
+
+#menu ul#ls {
+    list-style: none; /* Loại bỏ dấu chấm đầu dòng */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Căn các phần tử ngang */
+    justify-content: center; /* Căn giữa menu */
+    gap: 20px; /* Khoảng cách giữa các mục */
+}
+
+#menu ul#ls li {
+    display: inline; /* Căn mỗi mục theo chiều ngang */
+}
+
+#menu ul#ls li a {
+    color: #fff; /* Màu chữ */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    padding: 10px 20px; /* Thêm khoảng cách trong */
+    border-radius: 5px; /* Góc bo tròn */
+    background-color: #444; /* Màu nền của liên kết */
+    transition: background 0.3s, color 0.3s; /* Hiệu ứng hover */
+}
+
+#menu ul#ls li a:hover {
+    background-color: #555; /* Đổi màu nền khi hover */
+    color: #f7c08a; /* Đổi màu chữ khi hover */
+}
