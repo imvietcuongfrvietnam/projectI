@@ -10,7 +10,7 @@
 <body>
 <?php
 include_once "./nav_bar.php";?>
-
+<main> Xin chào đến với trang chủ trang quản lý.</main>
 <?php include_once "../footer.php";?>
 </body>
 </html>

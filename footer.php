@@ -1,11 +1,31 @@
-<footer>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
     <style>
-        /* Footer Container */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        main {
+            flex: 1;
+        }
+
         footer {
             background-color: #333;
             color: #fff;
             padding: 20px 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .footer-container {
@@ -15,15 +35,15 @@
         }
 
         .row {
-            display: flex;  /* Sử dụng flexbox để các cột hiển thị ngang */
-            justify-content: space-between; /* Phân chia các cột đều nhau */
-            flex-wrap: wrap;  /* Cho phép các phần tử xuống dòng khi không đủ chỗ */
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
 
         .footer-col {
-            flex: 1;  /* Mỗi cột chiếm 1 phần bằng nhau */
+            flex: 1;
             margin: 0 15px;
-            min-width: 200px; /* Đảm bảo các cột không quá hẹp */
+            min-width: 200px;
         }
 
         .footer-col h3 {
@@ -32,42 +52,41 @@
             font-weight: bold;
         }
 
-        /* Căn lề trái cho tất cả các đoạn văn bản và liên kết */
-        .footer-col p, .footer-col ul {
-            font-size: 14px;
-            text-align: left;  /* Căn trái */
-        }
-
         .footer-col ul {
             list-style-type: none;
             padding: 0;
         }
 
         .footer-col ul li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .footer-col ul li a {
             color: #f7c08a;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .footer-col ul li a:hover {
             text-decoration: underline;
-        }
-
-        /* Đảm bảo rằng email có màu khác để dễ nhìn */
-        .footer-col a {
-            color: #f7c08a;
-        }
-
-        .footer-col a:hover {
-            text-decoration: underline;
+            color: #ffc870;
         }
 
         hr {
             border: 1px solid #444;
             margin-top: 20px;
+        }
+        .footer-col ul li a,
+        .footer-col p a {
+            color: #f7c08a; /* Đặt màu chữ sáng và dễ nhìn */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col ul li a:hover,
+        .footer-col p a:hover {
+            text-decoration: underline;
+            color: #ffc870; /* Đổi màu khi hover để thêm hiệu ứng */
         }
 
         footer p {
@@ -75,11 +94,24 @@
             margin-top: 20px;
             font-size: 14px;
         }
-    </style>
 
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-col {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<footer>
     <div class="footer-container">
         <div class="row">
-            <!-- Liên hệ -->
             <div class="footer-col">
                 <h3>Liên hệ</h3>
                 <p>Phòng Quản lý Đào tạo</p>
@@ -87,7 +119,6 @@
                 <p>Điện thoại: +84 123 456 789</p>
                 <p>Email: <a href="mailto:ql_daotao@xyz.edu.vn">ql_daotao@xyz.edu.vn</a></p>
             </div>
-            <!-- Hỗ trợ -->
             <div class="footer-col">
                 <h3>Hỗ trợ</h3>
                 <ul>
@@ -95,7 +126,6 @@
                     <li><a href="/faq">Câu hỏi thường gặp</a></li>
                 </ul>
             </div>
-            <!-- Chính sách -->
             <div class="footer-col">
                 <h3>Chính sách</h3>
                 <ul>
@@ -107,3 +137,4 @@
         <p>© 2024 Hệ thống Quản lý Đào tạo - Đại học XYZ. Mọi quyền được bảo lưu.</p>
     </div>
 </footer>
+</html>

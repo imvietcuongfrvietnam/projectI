@@ -33,7 +33,9 @@ $semester_id = $_GET['semester_id'];
             <tbody>
             <?php
             $sql_enroll = "SELECT class_id, student_id, registration_date, status FROM enroll 
-                       WHERE class_id IN (SELECT class_id FROM class WHERE semester_id = ?)";
+               WHERE class_id IN (SELECT class_id FROM class WHERE semester_id = ?) 
+               AND status = N'Đã đăng ký'";
+
             $params_enroll = array($semester_id);
             $stmt_enroll = sqlsrv_query($conn, $sql_enroll, $params_enroll);
 
