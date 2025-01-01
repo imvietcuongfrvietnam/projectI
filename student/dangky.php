@@ -10,6 +10,42 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký lớp</title>
     <link rel="stylesheet" href="../src/css/app.css">
+    <style>
+        /* Định dạng chung cho các nút */
+        .button, .table-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333; /* Màu nền đen */
+            color: white; /* Màu chữ trắng */
+            text-decoration: none; /* Xóa gạch chân */
+            border-radius: 5px; /* Bo tròn góc */
+            font-weight: bold; /* Chữ đậm */
+            transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng */
+            margin: 5px;
+        }
+
+        .button:hover, .table-button:hover {
+            background-color: #444; /* Màu nền khi hover */
+            transform: scale(1.05); /* Tăng kích thước nhẹ khi hover */
+        }
+
+        /* Cái này áp dụng cho button trong bảng */
+        table button {
+            padding: 8px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        table button:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
 <?php

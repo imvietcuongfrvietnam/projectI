@@ -44,12 +44,18 @@
             flex: 1;
             margin: 0 15px;
             min-width: 200px;
+            display: flex;
+            flex-direction: column;
         }
 
         .footer-col h3 {
             margin-bottom: 10px;
             font-size: 18px;
             font-weight: bold;
+        }
+
+        .footer-col p, .footer-col ul {
+            margin: 5px 0;
         }
 
         .footer-col ul {
@@ -103,10 +109,12 @@
         <div class="row">
             <div class="footer-col">
                 <h3>Liên hệ</h3>
-                <p>Phòng Quản lý Đào tạo</p>
-                <p>Địa chỉ: Tòa nhà A, Đại học XYZ</p>
-                <p>Điện thoại: +84 123 456 789</p>
-                <p>Email: <a href="mailto:ql_daotao@xyz.edu.vn">ql_daotao@xyz.edu.vn</a></p>
+                <ul>
+                <li>Phòng Quản lý Đào tạo</li>
+                <li>Địa chỉ: Tòa nhà A, Đại học XYZ</li>
+                <li>Điện thoại: +84 123 456 789</li>
+                <li>Email: <a href="mailto:ql_daotao@xyz.edu.vn">ql_daotao@xyz.edu.vn</a></li>
+                </ul>
             </div>
             <div class="footer-col">
                 <h3>Hỗ trợ</h3>
