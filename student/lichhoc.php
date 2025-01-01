@@ -91,30 +91,9 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
         }
 
         /* Table Styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
 
-        table th, table td {
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
 
-        table th {
-            background: #f3f3f3;
-            font-weight: bold;
-        }
 
-        table tr:nth-child(even) {
-            background: #f9f9f9;
-        }
-
-        table tr:hover {
-            background: #f0f0f0;
-        }
 
         /* Success/Error Message Styling */
         p {
@@ -129,6 +108,32 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
         p.no-result {
             color: #f0ad4e;
         }
+        .table-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
     </style>
 </head>
 <body>
@@ -160,7 +165,10 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
         </select>
         <button type="submit">Lọc lớp học</button>
     </form>
+</div>
 
+<!-- Bảng hiển thị danh sách lớp -->
+<div class="table-container">
     <?php
     // Nếu đã chọn học kỳ, tiếp tục thực hiện truy vấn lọc các lớp học đã đăng ký của sinh viên trong học kỳ đó
     if ($semester_id) {
@@ -214,6 +222,7 @@ $semester_id = isset($_POST['semester_id']) ? $_POST['semester_id'] : null;
     }
     ?>
 </div>
+
 
 <?php sqlsrv_close($conn); ?>
 <?php include_once "../footer.php"; ?>

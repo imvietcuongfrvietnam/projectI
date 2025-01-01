@@ -114,6 +114,14 @@ if (isset($_POST['submit_grades'])) {
                 flex-direction: column;
                 gap: 15px;
             }
+            form {
+                margin-bottom: 20px; /* Thêm khoảng cách giữa các form */
+            }
+
+            form button {
+                display: block; /* Hiển thị nút trên dòng riêng */
+                margin-top: 10px; /* Thêm khoảng cách với các phần tử phía trên */
+            }
 
             form label {
                 font-weight: bold;

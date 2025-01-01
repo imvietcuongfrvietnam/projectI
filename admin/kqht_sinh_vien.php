@@ -24,8 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = sqlsrv_prepare($conn, $sql, $params);
 
     if (sqlsrv_execute($stmt)) {
+        echo "<div class='result-container'>";
         echo "<h3>Kết quả học tập của sinh viên MSSV: $student_id, Kỳ học: $semester_id</h3>";
-        echo "<table border='1'>
+        echo "<table>
                 <tr>
                     <th>Mã môn học</th>
                     <th>Tên môn học</th>
@@ -43,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                   </tr>";
         }
         echo "</table>";
+        echo "</div>";
     } else {
         echo "<p>Lỗi: " . print_r(sqlsrv_errors(), true) . "</p>";
     }
@@ -59,9 +61,99 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Tra cứu kết quả học tập</title>
     <link rel="stylesheet" href="../src/css/form.css"> <!-- Liên kết file CSS -->
     <style>
-        .form-container {
-            margin-bottom: 20px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding-top: 70px; /* Khoảng trống cho navbar */
         }
+
+        .form-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .form-container select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-container select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .form-container button {
+            padding: 12px;
+            background: #333;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s;
+        }
+
+        .form-container button:hover {
+            background: #444;
+            color: #f7c08a;
+        }
+
+        .result-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background: #f3f3f3;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table tr:hover {
+            background: #f0f0f0;
+        }
+
         .back-link {
             display: block;
             margin-top: 20px;
@@ -74,6 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             width: 150px;
             margin: 0 auto;
         }
+
         .back-link:hover {
             background-color: #555;
         }
@@ -103,7 +196,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit">Tra cứu</button>
     </form>
 </div>
-
 
 <?php include_once "../footer.php"; ?>
 </body>
