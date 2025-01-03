@@ -89,9 +89,9 @@ if (isset($_POST['class_id'])) {
         }
 
         // Giải phóng tài nguyên
-        if ($check_class_stmt) sqlsrv_free_stmt($check_class_stmt);
-        if ($check_subject_stmt) sqlsrv_free_stmt($check_subject_stmt);
-        if ($class_stmt) sqlsrv_free_stmt($class_stmt);
+        if (isset($check_class_stmt)) sqlsrv_free_stmt($check_class_stmt);
+        if (isset($check_subject_stmt)) sqlsrv_free_stmt($check_subject_stmt);
+        if (isset($class_stmt)) sqlsrv_free_stmt($class_stmt);
 
     } catch (Exception $e) {
         // Bắt lỗi và hiển thị thông báo
