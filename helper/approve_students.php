@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approve'])) {
         // Cập nhật trạng thái trong bảng enroll
         $sql_update_status = "
             UPDATE enroll 
-            SET [status] = N'Thành công'
-            WHERE [status] = N'Đã đăng ký'
+            SET status = N'Thành công'
+            WHERE status = N'Đã đăng ký'
             AND class_id IN (
                 SELECT class_id 
                 FROM class 
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approve'])) {
 
         $stmt_classes = sqlsrv_prepare($conn, $sql_get_classes, [$semester_id]);
         if (!$stmt_classes) {
-            throw new Exception("Lỗi chuẩn bị câu lệnh lấy dữ liệu: " . print_r(sqlsrv_errors(), true));
+            throw new Exception("Lỗi chuẩn bị câu lệnh lấy dữ liệu:1 " . print_r(sqlsrv_errors(), true));
         }
 
         $result_classes = sqlsrv_execute($stmt_classes);
@@ -71,8 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approve'])) {
             $insert_result = sqlsrv_execute($insert_stmt);
             if ($insert_result) {
                 $added_count++;
-            } else {
-                throw new Exception("Lỗi thực thi câu lệnh chèn vào transcript: " . print_r(sqlsrv_errors(), true));
             }
         }
 
